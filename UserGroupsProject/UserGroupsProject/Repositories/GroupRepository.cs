@@ -93,14 +93,13 @@ namespace UserGroupsProject.Repositories
                 conn.Close();
             }
         }
-        public List<User> GetUserNames(User user,int Id)
+        public List<User> GetUserNames(int Id)
         {
-            List<User> userNamesToReturn = new List<User>();
+            List<User> user = new List<User>();
             using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Select * from [User] u inner join UserGroupRelation UGR on u.Id=UGR.User_ID where Group_ID=@Id;";
-                //cmd.CommandText = @"Select * from[Group] where Id=@Id";
                 cmd.Parameters.AddWithValue("@Id", Id);
                 cmd.Connection = conn;
                 conn.Open();
@@ -109,14 +108,35 @@ namespace UserGroupsProject.Repositories
                 while (reader.Read())
                 {
                     User temp = new User();
-                    userNamesToReturn.Add(temp);
-                    {
-                        temp.Name = reader["Name"].ToString();
-                        temp.Id = int.Parse(reader["Id"].ToString());
-                    }
+                    temp.Name = reader["Name"].ToString();
+                    temp.Id = int.Parse(reader["Id"].ToString());
+                   user.Add(temp);
                 };
             }
-            return userNamesToReturn;
+            return user;
+        }
+        
+        public List<User> GetNotAssignedUsers(int ID)
+        {
+            List<User> user = new List<User>();
+            using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"Select* From [User] where Id  NOT IN(Select User_ID from UserGroupRelation where Group_ID=@Id);";
+                cmd.Parameters.AddWithValue("@Id", ID);
+                cmd.Connection = conn;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    user.Add(new User()
+                    {
+                        Name = reader["Name"].ToString(),
+                        Id = int.Parse(reader["Id"].ToString()),
+                    });
+                }
+                return user;
+            }
         }
 
     }

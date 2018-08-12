@@ -27,7 +27,8 @@
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })|
-            @Html.ActionLink("Users of this group", "GetUserNames", new { id = item.Id })
+            @Html.ActionLink("Users of this group", "GetUserNames", new { id = item.Id })|
+            @Html.ActionLink("Add new user to this group", "AddGroupToUser", new { id = item.Id })
             
         </td>
     </tr>

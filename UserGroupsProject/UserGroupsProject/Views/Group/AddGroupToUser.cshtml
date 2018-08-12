@@ -1,0 +1,93 @@
+﻿@model UserGroupsProject.Models.GetUserNamesViewModel
+
+@{
+    ViewBag.Title = "AddGroupToUser";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+
+
+
+
+            <div class="container">
+                <p>Choose ONE user to add to this group</p>
+
+                @using (Html.BeginForm("AddThisUserToGroup", "User", FormMethod.Post))
+                {
+                    <input type="text" value="@Model.group.Name" readonly />
+                    <input type="text" value="@Model.group.Id" name="GroupID" readonly hidden />
+
+
+
+                    <div class="row">
+
+                        <div class="col-xs-6">
+                            <table class="table">
+
+
+                                @foreach (var item in Model.user)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+
+                                            <input type="checkbox" value="@item.Id" name="UserID" class="chkclass" />
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Submit" class="submit" />
+
+                }
+            </div>
+        </div>
+        <div class="col-xs-6">
+
+
+            <div class="container">
+                <p>Choose ONE user to add to this group</p>
+
+                @using (Html.BeginForm("AddThisUserToGroup", "User", FormMethod.Post))
+                {
+                    <input type="text" value="@Model.group.Name" readonly />
+                    <input type="text" value="@Model.group.Id" name="GroupID" readonly hidden />
+
+
+
+                    <div class="row">
+
+                        <div class="col-xs-6">
+                            <table class="table">
+
+
+                                @foreach (var item in Model.userMember)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+
+                                            <input type="checkbox" value="@item.Id" name="UserID" class="chkclass" />
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Submit" class="submit" />
+
+                }
+
+
+
+
+
+            </div>
+</div>

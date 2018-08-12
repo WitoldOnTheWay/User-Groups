@@ -105,14 +105,15 @@ namespace UserGroupsProject.Repositories
                 conn.Close();
             }
         }
-        public List<Group> GetGroupNames(Group group,int Id)
+       
+
+        public List<Group> GetGroupNames(int Id)
         {
-            List<Group> groupToReturn = new List<Group>();
+            List<Group> listOfGroups = new List<Group>();
             using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Select * from [Group] g inner join UserGroupRelation UGR on g.Id=UGR.Group_ID where User_ID=@Id;";
-                //cmd.CommandText = @"Select * from[Group] where Id=@Id";
                 cmd.Parameters.AddWithValue("@Id", Id);
                 cmd.Connection = conn;
                 conn.Open();
@@ -121,13 +122,64 @@ namespace UserGroupsProject.Repositories
                 while (reader.Read())
                 {
                     Group temp = new Group();
-                    groupToReturn.Add(temp);
                     temp.Name = reader["Name"].ToString();
                     temp.Id = int.Parse(reader["Id"].ToString());
+                    listOfGroups.Add(temp);
                 };
             }
-            return groupToReturn;
+            return listOfGroups;
         }
 
+        
+        public void AddThisUserToGroup(int UserID,int GroupID)
+        {
+            using (SqlConnection conn = new SqlConnection("Server = DESKTOP-FH5G1I2\\SQLEXPRESS; Database=Users&Groups; Trusted_Connection = True; "))
+            {
+                conn.Open();
+                string query = @"Insert into UserGroupRelation Values(@User_ID,@Group_ID)";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@User_ID", UserID);
+                command.Parameters.AddWithValue("@Group_ID", GroupID);
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+        public void DeleteThisUserFromGroup(int UserID,int GroupID)
+        {
+            using (SqlConnection conn = new SqlConnection("Server = DESKTOP-FH5G1I2\\SQLEXPRESS; Database=Users&Groups; Trusted_Connection = True; "))
+            {
+                conn.Open();
+                string query = @"Delete FROM UserGroupRelation Where(User_ID=@User_ID AND Group_ID=@Group_ID)";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@User_ID", UserID);
+                command.Parameters.AddWithValue("@Group_ID", GroupID);
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+
+        }
+       
+        public List<Group> GetNotAssignedGroups(int ID)
+        {
+            List<Group> group = new List<Group>();
+            using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"Select* From [Group] where Id  NOT IN(Select Group_ID from UserGroupRelation where User_ID=@Id);";
+                cmd.Parameters.AddWithValue("@Id", ID);
+                cmd.Connection = conn;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    group.Add(new Group()
+                    {
+                        Name = reader["Name"].ToString(),
+                        Id = int.Parse(reader["Id"].ToString()),
+                    });
+                }
+                return group;
+            }
+        }
     }
 }

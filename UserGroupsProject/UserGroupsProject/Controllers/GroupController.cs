@@ -75,9 +75,31 @@ namespace UserGroupsProject.Controllers
                 return View(group);
             }
         }
-        public ActionResult GetUserNames(User user,int Id)
+        public ActionResult GetUserNames(int Id)
         {
-            return View(groupRepository.GetUserNames(user,Id));
+            GetUserNamesViewModel getUserNamesModelview = new GetUserNamesViewModel();
+            UserRepository userRepository = new UserRepository();
+            getUserNamesModelview.user = groupRepository.GetUserNames(Id);
+            getUserNamesModelview.group = groupRepository.Details(Id);
+            return View(getUserNamesModelview);
+        }
+        [Route("Group/AddGroupToUser/{Id}")]
+        [HttpGet]
+        public ActionResult AddGroupToUser(int ID)
+        {
+            GetUserNamesViewModel getUserNamesModelView = new GetUserNamesViewModel();
+            UserRepository userRepository = new UserRepository();
+            getUserNamesModelView.userMember = groupRepository.GetUserNames(ID);
+            getUserNamesModelView.user = groupRepository.GetNotAssignedUsers(ID);
+            getUserNamesModelView.group = groupRepository.Details(ID);
+            return View(getUserNamesModelView);
+        }
+        [HttpPost]
+        public ActionResult AddThisUserToGroup(int UserID, int GroupID)
+        {
+            UserRepository userRepository = new UserRepository();
+            userRepository.AddThisUserToGroup(UserID, GroupID);
+            return RedirectToAction("GetUserNames", new { @id = GroupID });
         }
        
     }
