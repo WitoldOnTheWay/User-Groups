@@ -11,17 +11,17 @@ namespace UserGroupsProject.Controllers
     public class GroupController : Controller
     {
         GroupRepository groupRepository = new GroupRepository();
-        // GET: Group/GetAll
+        
         public ActionResult GetAll()
         {
             return View(groupRepository.GetAll());
         }
-        //GET: Group/Details/Id
+        
         public ActionResult Details(int Id)
         {
             return View(groupRepository.Details(Id));
         }
-        //GET: Group/Delete/Id
+        
         public ActionResult Delete(int Id)
         {
             return View(groupRepository.Details(Id));
@@ -39,7 +39,7 @@ namespace UserGroupsProject.Controllers
                 return View(group);
             }
         }
-        //GET: Group/Edit/Id
+        
         public ActionResult Edit(int Id)
         {
             return View(groupRepository.Details(Id));
@@ -79,8 +79,8 @@ namespace UserGroupsProject.Controllers
         {
             GetUserNamesViewModel getUserNamesModelview = new GetUserNamesViewModel();
             UserRepository userRepository = new UserRepository();
-            getUserNamesModelview.user = groupRepository.GetUserNames(Id);
-            getUserNamesModelview.group = groupRepository.Details(Id);
+            getUserNamesModelview.User = groupRepository.GetUserNames(Id);
+            getUserNamesModelview.Group = groupRepository.Details(Id);
             return View(getUserNamesModelview);
         }
         [Route("Group/AddGroupToUser/{Id}")]
@@ -89,9 +89,9 @@ namespace UserGroupsProject.Controllers
         {
             GetUserNamesViewModel getUserNamesModelView = new GetUserNamesViewModel();
             UserRepository userRepository = new UserRepository();
-            getUserNamesModelView.userMember = groupRepository.GetUserNames(ID);
-            getUserNamesModelView.user = groupRepository.GetNotAssignedUsers(ID);
-            getUserNamesModelView.group = groupRepository.Details(ID);
+            getUserNamesModelView.UserMember = groupRepository.GetUserNames(ID);
+            getUserNamesModelView.User = groupRepository.GetNotAssignedUsers(ID);
+            getUserNamesModelView.Group = groupRepository.Details(ID);
             return View(getUserNamesModelView);
         }
         [HttpPost]

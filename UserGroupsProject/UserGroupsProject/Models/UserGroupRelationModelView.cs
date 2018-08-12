@@ -9,6 +9,5 @@ namespace UserGroupsProject.Models
     {
         public User UserList { get; set; }
         public Group GroupList { get; set; }
-
     }
 }

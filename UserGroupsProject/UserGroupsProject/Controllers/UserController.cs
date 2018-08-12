@@ -12,17 +12,14 @@ namespace UserGroupsProject.Controllers
     public class UserController : Controller
     {
         UserRepository userRepository = new UserRepository();
-        //GET: User/GetAll
         public ActionResult GetAll()
         {
             return View(userRepository.GetAll());
         }
-        //GET: User/Details/Id
         public ActionResult Details(int Id)
         {
             return View(userRepository.Details(Id));
         }
-        //GET: User/Edit/Id
         public ActionResult Edit(int Id)
         {
             return View(userRepository.Details(Id));
@@ -41,7 +38,6 @@ namespace UserGroupsProject.Controllers
             }
             
         }
-        //GET: User/Create
         public ActionResult Create()
         {
             return View();
@@ -81,8 +77,8 @@ namespace UserGroupsProject.Controllers
         {
             GetGroupNamesViewModel getGroupNamesModelView = new GetGroupNamesViewModel();
             GroupRepository groupRepository = new GroupRepository();
-            getGroupNamesModelView.group = userRepository.GetGroupNames(Id);
-            getGroupNamesModelView.user=userRepository.Details(Id);
+            getGroupNamesModelView.Group = userRepository.GetGroupNames(Id);
+            getGroupNamesModelView.User=userRepository.Details(Id);
             return View(getGroupNamesModelView);
         }
 
@@ -105,9 +101,9 @@ namespace UserGroupsProject.Controllers
         {
             GetGroupNamesViewModel getGroupNamesModelView = new GetGroupNamesViewModel();
             GroupRepository groupRepository = new GroupRepository();
-            getGroupNamesModelView.group = userRepository.GetNotAssignedGroups(ID);
-            getGroupNamesModelView.groupMember = userRepository.GetGroupNames(ID);
-            getGroupNamesModelView.user = userRepository.Details(ID);
+            getGroupNamesModelView.Group = userRepository.GetNotAssignedGroups(ID);
+            getGroupNamesModelView.GroupMember = userRepository.GetGroupNames(ID);
+            getGroupNamesModelView.User = userRepository.Details(ID);
             return View(getGroupNamesModelView);
         }
     }

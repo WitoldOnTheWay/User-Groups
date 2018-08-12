@@ -9,10 +9,11 @@ namespace UserGroupsProject.Repositories
 {
     public class UserRepository
     {
+        string ConnectionString = "Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;";
         public List<User> GetAll()
         {
             List<User> user = new List<User>();
-            using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "Select * From [User]";
@@ -39,7 +40,7 @@ namespace UserGroupsProject.Repositories
         public User Details(int Id)
         {
             User user = new User();
-            using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Select Name,Email,CreationDate,Id FROM [User] where Id=@Id";
@@ -58,7 +59,7 @@ namespace UserGroupsProject.Repositories
         }
         public User Edit(User user, int Id)
         {
-            using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 String query = "UPDATE [User] SET Name=@Name,Email=@Email,CreationDate=@CreationDate WHERE Id=@Id";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -77,7 +78,7 @@ namespace UserGroupsProject.Repositories
         }
         public void Create(User user)
         {
-            using (SqlConnection conn = new SqlConnection("Server = DESKTOP-FH5G1I2\\SQLEXPRESS; Database=Users&Groups; Trusted_Connection = True; "))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 conn.Open();
                 string query = "Insert Into [User](Name,Email,CreationDate) values(@Name, @Email,@CreationDate)";
@@ -93,7 +94,7 @@ namespace UserGroupsProject.Repositories
         public void Delete(User user, int Id)
         {
             User userToDelete = new User();
-            using (SqlConnection conn = new SqlConnection("Server = DESKTOP-FH5G1I2\\SQLEXPRESS; Database=Users&Groups; Trusted_Connection = True; "))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Delete From [User] where Id=@Id";
@@ -110,7 +111,7 @@ namespace UserGroupsProject.Repositories
         public List<Group> GetGroupNames(int Id)
         {
             List<Group> listOfGroups = new List<Group>();
-            using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Select * from [Group] g inner join UserGroupRelation UGR on g.Id=UGR.Group_ID where User_ID=@Id;";
@@ -133,7 +134,7 @@ namespace UserGroupsProject.Repositories
         
         public void AddThisUserToGroup(int UserID,int GroupID)
         {
-            using (SqlConnection conn = new SqlConnection("Server = DESKTOP-FH5G1I2\\SQLEXPRESS; Database=Users&Groups; Trusted_Connection = True; "))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 conn.Open();
                 string query = @"Insert into UserGroupRelation Values(@User_ID,@Group_ID)";
@@ -146,7 +147,7 @@ namespace UserGroupsProject.Repositories
         }
         public void DeleteThisUserFromGroup(int UserID,int GroupID)
         {
-            using (SqlConnection conn = new SqlConnection("Server = DESKTOP-FH5G1I2\\SQLEXPRESS; Database=Users&Groups; Trusted_Connection = True; "))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 conn.Open();
                 string query = @"Delete FROM UserGroupRelation Where(User_ID=@User_ID AND Group_ID=@Group_ID)";
@@ -162,7 +163,7 @@ namespace UserGroupsProject.Repositories
         public List<Group> GetNotAssignedGroups(int ID)
         {
             List<Group> group = new List<Group>();
-            using (SqlConnection conn = new SqlConnection("Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;"))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Select* From [Group] where Id  NOT IN(Select Group_ID from UserGroupRelation where User_ID=@Id);";

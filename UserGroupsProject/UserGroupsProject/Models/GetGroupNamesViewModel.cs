@@ -7,8 +7,8 @@ namespace UserGroupsProject.Models
 {
     public class GetGroupNamesViewModel
     {
-        public User user { get; set; }
-        public List<Group> group { get; set; }
-        public List<Group> groupMember { get; set; }
+        public User User { get; set; }
+        public List<Group> Group { get; set; }
+        public List<Group> GroupMember { get; set; }
     }
 }

@@ -9,22 +9,17 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayFor(Model => Model.group.Name)
+            @Html.DisplayFor(Model => Model.Group.Name)
         </th>
+</tr>
 
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.user)
+    @foreach (var item in Model.User)
     {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
-                
-            </td>
-
+                </td>
             <td>
-               
                @Html.ActionLink("Back to list", "GetAll", "Group")
             </td>
         </tr>
