@@ -7,8 +7,9 @@ using System.Data.SqlClient;
 
 namespace UserGroupsProject.Repositories
 {
-    public class UserRepository
+    public class UserRepository:IUserRepository
     {
+
         string ConnectionString = "Server=DESKTOP-FH5G1I2\\SQLEXPRESS;Database=Users&Groups;Trusted_Connection=True;";
         public List<User> GetAll()
         {

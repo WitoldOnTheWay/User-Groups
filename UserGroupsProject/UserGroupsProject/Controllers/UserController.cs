@@ -11,25 +11,38 @@ namespace UserGroupsProject.Controllers
 {
     public class UserController : Controller
     {
-        UserRepository userRepository = new UserRepository();
+        private readonly IUserRepository _userRepository;
+        private readonly IGroupRepository _groupRepository;
+
+        public UserController(IUserRepository userRepository, IGroupRepository groupRepository)
+        {
+            _userRepository = userRepository;
+            _groupRepository = groupRepository;
+        }
+        public UserController() :this(new UserRepository(),new GroupRepository())
+        {
+
+        }
+
+
         public ActionResult GetAll()
         {
-            return View(userRepository.GetAll());
+            return View(_userRepository.GetAll());
         }
         public ActionResult Details(int Id)
         {
-            return View(userRepository.Details(Id));
+            return View(_userRepository.Details(Id));
         }
         public ActionResult Edit(int Id)
         {
-            return View(userRepository.Details(Id));
+            return View(_userRepository.Details(Id));
         }
         [HttpPost]
         public ActionResult Edit(User user,int Id)
         {
             if (ModelState.IsValid)
             {
-                userRepository.Edit(user, Id);
+                _userRepository.Edit(user, Id);
                 return RedirectToAction("GetAll");
             }
             else
@@ -48,7 +61,7 @@ namespace UserGroupsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                userRepository.Create(user);
+                _userRepository.Create(user);
                 return RedirectToAction("GetAll");
             }
             else
@@ -58,14 +71,14 @@ namespace UserGroupsProject.Controllers
         }
         public ActionResult Delete(int Id)
         {
-            return View(userRepository.Details(Id));
+            return View(_userRepository.Details(Id));
         }
         [HttpPost]
         public ActionResult Delete(User user,int Id)
         {
             if (ModelState.IsValid)
             {
-                userRepository.Delete(user, Id);
+                _userRepository.Delete(user, Id);
                 return RedirectToAction("GetAll");
             }
             else
@@ -76,9 +89,8 @@ namespace UserGroupsProject.Controllers
         public ActionResult GetGroupNames(int Id)
         {
             GetGroupNamesViewModel getGroupNamesModelView = new GetGroupNamesViewModel();
-            GroupRepository groupRepository = new GroupRepository();
-            getGroupNamesModelView.Group = userRepository.GetGroupNames(Id);
-            getGroupNamesModelView.User=userRepository.Details(Id);
+            getGroupNamesModelView.Group = _userRepository.GetGroupNames(Id);
+            getGroupNamesModelView.User=_userRepository.Details(Id);
             return View(getGroupNamesModelView);
         }
 
@@ -86,13 +98,13 @@ namespace UserGroupsProject.Controllers
         [HttpPost]
         public ActionResult AddThisUserToGroup(int UserID, int GroupID)
         {
-            userRepository.AddThisUserToGroup(UserID, GroupID);
+            _userRepository.AddThisUserToGroup(UserID, GroupID);
             return RedirectToAction("GetGroupNames",new { @id = UserID });
         }
         [HttpPost]
             public ActionResult DeleteThisUserFromGroup(int UserID,int GroupID)
         {
-            userRepository.DeleteThisUserFromGroup(UserID, GroupID);
+            _userRepository.DeleteThisUserFromGroup(UserID, GroupID);
             return RedirectToAction("GetGroupNames", new { @id = UserID });
         }
         [Route("User/UserToGroup/{Id}")]
@@ -100,10 +112,9 @@ namespace UserGroupsProject.Controllers
         public ActionResult UserToGroup(int ID)
         {
             GetGroupNamesViewModel getGroupNamesModelView = new GetGroupNamesViewModel();
-            GroupRepository groupRepository = new GroupRepository();
-            getGroupNamesModelView.Group = userRepository.GetNotAssignedGroups(ID);
-            getGroupNamesModelView.GroupMember = userRepository.GetGroupNames(ID);
-            getGroupNamesModelView.User = userRepository.Details(ID);
+            getGroupNamesModelView.Group = _userRepository.GetNotAssignedGroups(ID);
+            getGroupNamesModelView.GroupMember = _userRepository.GetGroupNames(ID);
+            getGroupNamesModelView.User = _userRepository.Details(ID);
             return View(getGroupNamesModelView);
         }
     }

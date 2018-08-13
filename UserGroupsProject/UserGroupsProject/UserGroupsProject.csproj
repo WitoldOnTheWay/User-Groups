@@ -148,6 +148,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="IGroupRepository.cs" />
+    <Compile Include="IUserRepository.cs" />
     <Compile Include="Models\GetGroupNamesViewModel.cs" />
     <Compile Include="Models\GetUserNamesViewModel.cs" />
     <Compile Include="Models\Group.cs" />
