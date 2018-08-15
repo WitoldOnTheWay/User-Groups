@@ -29,21 +29,21 @@ namespace UserGroupsProject.Controllers
             return View(_groupRepository.GetAll());
         }
         
-        public ActionResult Details(int Id)
+        public ActionResult Details(int id)
         {
-            return View(_groupRepository.Details(Id));
+            return View(_groupRepository.Details(id));
         }
         
-        public ActionResult Delete(int Id)
+        public ActionResult Delete(int id)
         {
-            return View(_groupRepository.Details(Id));
+            return View(_groupRepository.Details(id));
         }
         [HttpPost]
-        public ActionResult Delete(Group group,int Id)
+        public ActionResult Delete(Group group,int id)
         {
             if (ModelState.IsValid)
             {
-                _groupRepository.Delete(group,Id);
+                _groupRepository.Delete(group,id);
                 return RedirectToAction("GetAll");
             }
             else
@@ -52,16 +52,16 @@ namespace UserGroupsProject.Controllers
             }
         }
         
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(int id)
         {
-            return View(_groupRepository.Details(Id));
+            return View(_groupRepository.Details(id));
         }
         [HttpPost]
-        public ActionResult Edit(Group group,int Id)
+        public ActionResult Edit(Group group,int id)
         {
             if (ModelState.IsValid)
             {
-                _groupRepository.Edit(group, Id);
+                _groupRepository.Edit(group, id);
                 return RedirectToAction("GetAll");
             }
             else
@@ -87,28 +87,28 @@ namespace UserGroupsProject.Controllers
                 return View(group);
             }
         }
-        public ActionResult GetUserNames(int Id)
+        public ActionResult GetUserNames(int id)
         {
             GetUserNamesViewModel getUserNamesModelview = new GetUserNamesViewModel();
-            getUserNamesModelview.User = _groupRepository.GetUserNames(Id);
-            getUserNamesModelview.Group = _groupRepository.Details(Id);
+            getUserNamesModelview.User = _groupRepository.GetUserNames(id);
+            getUserNamesModelview.Group = _groupRepository.Details(id);
             return View(getUserNamesModelview);
         }
         [Route("Group/AddGroupToUser/{Id}")]
         [HttpGet]
-        public ActionResult AddGroupToUser(int ID)
+        public ActionResult AddGroupToUser(int id)
         {
             GetUserNamesViewModel getUserNamesModelView = new GetUserNamesViewModel();
-            getUserNamesModelView.UserMember = _groupRepository.GetUserNames(ID);
-            getUserNamesModelView.User = _groupRepository.GetNotAssignedUsers(ID);
-            getUserNamesModelView.Group = _groupRepository.Details(ID);
+            getUserNamesModelView.UserMember = _groupRepository.GetUserNames(id);
+            getUserNamesModelView.User = _groupRepository.GetNotAssignedUsers(id);
+            getUserNamesModelView.Group = _groupRepository.Details(id);
             return View(getUserNamesModelView);
         }
         [HttpPost]
-        public ActionResult AddThisUserToGroup(int UserID, int GroupID)
+        public ActionResult AddThisUserToGroup(int userID, int groupID)
         {
-            _userRepository.AddThisUserToGroup(UserID, GroupID);
-            return RedirectToAction("GetUserNames", new { @id = GroupID });
+            _userRepository.AddThisUserToGroup(userID, groupID);
+            return RedirectToAction("GetUserNames", new { @id = groupID });
         }
        
     }

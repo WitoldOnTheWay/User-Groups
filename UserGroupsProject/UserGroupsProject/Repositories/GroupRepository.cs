@@ -33,14 +33,14 @@ namespace UserGroupsProject.Repositories
             }
 
         }
-        public Group Details(int Id)
+        public Group Details(int id)
         {
             Group group = new Group();
             using(SqlConnection conn=new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Select Name,Id FROM [Group] where Id=@Id";
-                cmd.Parameters.AddWithValue("@Id", Id);
+                cmd.Parameters.AddWithValue("@Id", id);
                 cmd.Connection = conn;
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -50,14 +50,14 @@ namespace UserGroupsProject.Repositories
                 return group;
             }
         }
-        public void Delete(Group group,int Id)
+        public void Delete(Group group,int id)
         {
             Group groupToDelete = new Group();
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Delete From [Group] where Id=@Id";
-                cmd.Parameters.AddWithValue("@Id", Id);
+                cmd.Parameters.AddWithValue("@Id", id);
                 cmd.Connection = conn;
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -65,7 +65,7 @@ namespace UserGroupsProject.Repositories
                 conn.Close();
             }
         }
-        public Group Edit(Group group, int Id)
+        public Group Edit(Group group, int id)
         {
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
@@ -94,14 +94,14 @@ namespace UserGroupsProject.Repositories
                 conn.Close();
             }
         }
-        public List<User> GetUserNames(int Id)
+        public List<User> GetUserNames(int id)
         {
             List<User> user = new List<User>();
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Select * from [User] u inner join UserGroupRelation UGR on u.Id=UGR.User_ID where Group_ID=@Id;";
-                cmd.Parameters.AddWithValue("@Id", Id);
+                cmd.Parameters.AddWithValue("@Id", id);
                 cmd.Connection = conn;
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -117,14 +117,14 @@ namespace UserGroupsProject.Repositories
             return user;
         }
         
-        public List<User> GetNotAssignedUsers(int ID)
+        public List<User> GetNotAssignedUsers(int id)
         {
             List<User> user = new List<User>();
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"Select* From [User] where Id  NOT IN(Select User_ID from UserGroupRelation where Group_ID=@Id);";
-                cmd.Parameters.AddWithValue("@Id", ID);
+                cmd.Parameters.AddWithValue("@Id", id);
                 cmd.Connection = conn;
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();

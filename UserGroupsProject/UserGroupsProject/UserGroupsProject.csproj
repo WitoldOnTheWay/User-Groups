@@ -154,7 +154,6 @@
     <Compile Include="Models\GetUserNamesViewModel.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserGroupRelationModelView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

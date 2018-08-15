@@ -9,6 +9,7 @@ namespace UserGroupsProject
 {
     public interface IUserRepository
     {
+        
          List<User> GetAll();
 
          User Details(int Id);
