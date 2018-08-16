@@ -12,7 +12,7 @@ using UserGroupsProject.Models;
 namespace UserGroupProjectUnitTest
 {
     [TestClass]
-    public class UnitTest2 //Methods from GroupController
+    public class GroupControllerUnitTests
     {
         IUserRepository testUserRepository = new TestUserRepository();
         IGroupRepository testGroupRepository = new TestGroupRepository();
